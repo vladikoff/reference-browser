@@ -151,7 +151,7 @@ class FirefoxAccountsIntegration(
                     persistProfile(profile)
                 }
                 // TODO this can be simplified once https://github.com/mozilla/application-services/issues/305 lands
-                val successUrl = "${parsedUri.scheme}://${parsedUri.host}/$SUCCESS_PATH"
+                val successUrl = "https://pairsona.dev.lcip.org/connect_another_device?showSuccessMessage=true"
                 return RequestInterceptor.InterceptionResponse.Url(successUrl)
             }
             return null
