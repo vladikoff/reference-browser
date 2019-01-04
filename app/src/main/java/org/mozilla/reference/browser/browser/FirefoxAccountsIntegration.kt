@@ -33,8 +33,9 @@ class FirefoxAccountsIntegration(
 ) : CoroutineScope, LifecycleObserver {
 
     companion object {
-        const val CLIENT_ID = "3c49430b43dfba77"
-        const val REDIRECT_URL = "https://accounts.firefox.com/oauth/success/3c49430b43dfba77"
+        const val CLIENT_ID = "ffcc4070a481bc74"
+        //const val REDIRECT_URL = "https://accounts.firefox.com/oauth/success/12CC4070A481BC73"
+        const val REDIRECT_URL = "fxaclient://fenix.redirect"
         const val SUCCESS_PATH = "connect_another_device?showSuccessMessage=true"
         const val FXA_STATE_PREFS_KEY = "fxaAppState"
         const val FXA_STATE_KEY = "fxaState"
@@ -67,7 +68,7 @@ class FirefoxAccountsIntegration(
                 profile = it.getProfile(true).await()
                 return@async it
             }
-            return@async Config.release().await().use { config ->
+            return@async Config.custom("https://pairsona.dev.lcip.org").await().use { config ->
                 FirefoxAccount(config, CLIENT_ID, REDIRECT_URL)
             }
         }
