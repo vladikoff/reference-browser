@@ -33,13 +33,13 @@ class FirefoxAccountsIntegration(
 ) : CoroutineScope, LifecycleObserver {
 
     companion object {
-        const val CLIENT_ID = "ffcc4070a481bc74"
+        const val CLIENT_ID = "3c49430b43dfba77"
         //const val REDIRECT_URL = "https://accounts.firefox.com/oauth/success/12CC4070A481BC73"
-        const val REDIRECT_URL = "fxaclient://fenix.redirect"
+        const val REDIRECT_URL = "https://pairsona2.dev.lcip.org/oauth/success/3c49430b43dfba77"
         const val SUCCESS_PATH = "connect_another_device?showSuccessMessage=true"
         const val FXA_STATE_PREFS_KEY = "fxaAppState"
         const val FXA_STATE_KEY = "fxaState"
-        val SCOPES: Array<String> = arrayOf("profile")
+        val SCOPES: Array<String> = arrayOf("https://identity.mozilla.com/apps/oldsync")
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, e ->
@@ -68,7 +68,7 @@ class FirefoxAccountsIntegration(
                 profile = it.getProfile(true).await()
                 return@async it
             }
-            return@async Config.custom("https://pairsona.dev.lcip.org").await().use { config ->
+            return@async Config.custom("https://pairsona2.dev.lcip.org").await().use { config ->
                 FirefoxAccount(config, CLIENT_ID, REDIRECT_URL)
             }
         }
@@ -84,6 +84,7 @@ class FirefoxAccountsIntegration(
     fun pair(pairingUrl: String) {
         launch {
             val url = account.await().beginPairingFlow(pairingUrl, SCOPES).await()
+            val k = 1
             tabsUseCases.addSession.invoke(url)
         }
     }
@@ -152,7 +153,7 @@ class FirefoxAccountsIntegration(
                 }
                 // TODO this can be simplified once https://github.com/mozilla/application-services/issues/305 lands
                 val successUrl = "${parsedUri.scheme}://${parsedUri.host}/$SUCCESS_PATH"
-                return RequestInterceptor.InterceptionResponse.Url(successUrl)
+                return RequestInterceptor.InterceptionResponse.Url(REDIRECT_URL)
             }
             return null
         }
