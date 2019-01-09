@@ -39,6 +39,12 @@
     <!-- Preference for signing in -->
     <string name="sign_in">Sign in</string>
 
+    <!-- Preference for pairing with Firefox Desktop -->
+    <string name="sign_in_pair">Pair with Firefox Desktop</string>
+
+    <!-- Preference summary for settings related sign in pairing -->
+    <string name="preferences_sign_in_pair_summary">Easily connect to Firefox Sync</string>
+
     <!-- Preference for settings related to the signed in Firefox Account -->
     <string name="firefox_account">Firefox Account</string>
 

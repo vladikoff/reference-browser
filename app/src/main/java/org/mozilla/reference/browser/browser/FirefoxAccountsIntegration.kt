@@ -125,6 +125,33 @@ class FirefoxAccountsIntegration(
         }
     }
 
+    fun pair(pairingUrl: String) {
+        launch {
+            if (restoreAuthenticatedAccount() != null) {
+                // If the user is authenticated but we failed to fetch the profile we try again
+                // and make sure an error is displayed if the FxA endpoint can't be reached.
+                if (profile == null) {
+                    account = initAccount()
+                    tabsUseCases.addTab.invoke(CONFIG.contentUrl)
+                }
+            } else {
+                try {
+                    val url = account.beginPairingFlow(pairingUrl, SCOPES).await()
+                    tabsUseCases.addTab.invoke(url)
+                } catch (e: FxaException) {
+                    // TODO we need a specific FxA exception for network errors:
+                    // https://github.com/mozilla/application-services/issues/479
+
+                    // Instead of just a log statement and no error indicator for the user, this
+                    // will give us a new tab pointing to the FxA server and showing "Unable to connect"
+                    // or similar, depending on the current network state.
+                    tabsUseCases.addTab.invoke(CONFIG.contentUrl)
+                    account = initAccount()
+                }
+            }
+        }
+    }
+
     suspend fun syncNow() {
         firefoxSyncFeature.sync(account)
         setLastSynced(System.currentTimeMillis())

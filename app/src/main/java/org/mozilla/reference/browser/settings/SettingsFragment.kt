@@ -17,6 +17,7 @@ import org.mozilla.reference.browser.R
 import org.mozilla.reference.browser.R.string.pref_key_firefox_account
 import org.mozilla.reference.browser.ext.getPreferenceKey
 import org.mozilla.reference.browser.R.string.pref_key_sign_in
+import org.mozilla.reference.browser.R.string.pref_key_sign_in_pair
 import org.mozilla.reference.browser.R.string.pref_key_make_default_browser
 import org.mozilla.reference.browser.R.string.pref_key_remote_debugging
 import org.mozilla.reference.browser.R.string.pref_key_about_page
@@ -50,6 +51,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @Suppress("LongMethod") // Yep, this should be refactored.
     private fun setupPreferences() {
         val signInKey = context?.getPreferenceKey(pref_key_sign_in)
+        val signInPairKey = context?.getPreferenceKey(pref_key_sign_in_pair)
         val firefoxAccountKey = context?.getPreferenceKey(pref_key_firefox_account)
         val makeDefaultBrowserKey = context?.getPreferenceKey(pref_key_make_default_browser)
         val remoteDebuggingKey = context?.getPreferenceKey(pref_key_remote_debugging)
@@ -57,6 +59,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val privacyKey = context?.getPreferenceKey(pref_key_privacy)
 
         val preferenceSignIn = findPreference(signInKey)
+        val preferenceSignInPair = findPreference(signInPairKey)
         val preferenceFirefoxAccount = findPreference(firefoxAccountKey)
         val preferenceMakeDefaultBrowser = findPreference(makeDefaultBrowserKey)
         val preferenceRemoteDebugging = findPreference(remoteDebuggingKey)
@@ -69,6 +72,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         preferenceFirefoxAccount.onPreferenceClickListener = getClickListenerForFirefoxAccount()
         preferenceFirefoxAccount.isVisible = fxaIntegration.profile != null
         preferenceFirefoxAccount.summary = fxaIntegration.profile?.email
+
+        preferenceSignInPair.onPreferenceClickListener = getClickListenerForSignInPair()
+        preferenceSignInPair.isVisible = fxaIntegration.profile == null
+
         preferenceMakeDefaultBrowser.onPreferenceClickListener = getClickListenerForMakeDefaultBrowser()
         preferenceRemoteDebugging.onPreferenceChangeListener = getChangeListenerForRemoteDebugging()
         preferenceAboutPage.onPreferenceClickListener = getAboutPageListener()
@@ -86,6 +93,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         } else {
             defaultClickListener
+        }
+    }
+
+    private fun getClickListenerForSignInPair(): OnPreferenceClickListener {
+        return OnPreferenceClickListener { _ ->
+            fragmentManager?.beginTransaction()
+                    ?.replace(android.R.id.content, ScanFragment())
+                    ?.addToBackStack(null)
+                    ?.commit()
+            true
         }
     }
 
