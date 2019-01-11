@@ -49,7 +49,7 @@ class FirefoxAccountsIntegration(
         // needed by components which rely on FxA integration. If this list
         // grows too far we probably want to find a way to determine the set
         // at runtime.
-        val SCOPES: Array<String> = arrayOf("profile", "https://identity.mozilla.com/apps/oldsync")
+        val SCOPES: Array<String> = arrayOf("https://identity.mozilla.com/apps/oldsync")
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, e ->
@@ -223,7 +223,7 @@ class FirefoxAccountsIntegration(
                     account.completeOAuthFlow(code, state).await()
                     this@FirefoxAccountsIntegration.profile = account.getProfile().await()
                     persistAuthenticatedAccount()
-
+                    val k = 1
                     // Now that we're logged in, kick off initial sync.
                     CoroutineScope(Dispatchers.IO).launch { syncNow() }
                 }
