@@ -21,9 +21,14 @@ import org.mozilla.reference.browser.R.string.pref_key_sign_out
 import org.mozilla.reference.browser.R.string.pref_key_sync_now
 import org.mozilla.reference.browser.browser.FirefoxAccountsIntegration
 import org.mozilla.reference.browser.ext.components
+import java.lang.Exception
 
 class AccountSettingsFragment : PreferenceFragmentCompat() {
     private val syncStatusObserver = object : SyncStatusObserver {
+        override fun onError(error: Exception?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
         override fun onIdle() {
             CoroutineScope(Dispatchers.Main).launch {
                 val pref = findPreference(context?.getPreferenceKey(pref_key_sync_now))

@@ -38,7 +38,7 @@ class FirefoxAccountsIntegration(
         const val CLIENT_ID = "3c49430b43dfba77"
         //const val REDIRECT_URL = "https://accounts.firefox.com/oauth/success/3c49430b43dfba77"
         const val REDIRECT_URL = "https://pairsona3.dev.lcip.org/oauth/success/3c49430b43dfba77"
-        const val SUCCESS_PATH = "connect_another_device?showSuccessMessage=true"
+        const val SUCCESS_PATH = "pair/success"
         const val FXA_STATE_PREFS_KEY = "fxaAppState"
         const val FXA_STATE_KEY = "fxaState"
         const val FXA_LAST_SYNCED_KEY = "lastSyncedAt"
