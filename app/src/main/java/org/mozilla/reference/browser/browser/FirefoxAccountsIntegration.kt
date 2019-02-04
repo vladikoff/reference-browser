@@ -37,13 +37,13 @@ class FirefoxAccountsIntegration(
     companion object {
         const val CLIENT_ID = "3c49430b43dfba77"
         //const val REDIRECT_URL = "https://accounts.firefox.com/oauth/success/3c49430b43dfba77"
-        const val REDIRECT_URL = "https://pairsona3.dev.lcip.org/oauth/success/3c49430b43dfba77"
+        const val REDIRECT_URL = "https://pairsona-qa.dev.lcip.org/oauth/success/3c49430b43dfba77"
         const val SUCCESS_PATH = "pair/success"
         const val FXA_STATE_PREFS_KEY = "fxaAppState"
         const val FXA_STATE_KEY = "fxaState"
         const val FXA_LAST_SYNCED_KEY = "lastSyncedAt"
         const val FXA_NEVER_SYNCED_TS: Long = 0
-        val CONFIG = Config("https://pairsona3.dev.lcip.org", CLIENT_ID, REDIRECT_URL)
+        val CONFIG = Config("https://pairsona-qa.dev.lcip.org", CLIENT_ID, REDIRECT_URL)
 
         // This is slightly messy - here we need to know the union of all "scopes"
         // needed by components which rely on FxA integration. If this list
