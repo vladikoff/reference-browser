@@ -20,7 +20,7 @@ class BackgroundServices(
 ) {
     companion object {
         const val CLIENT_ID = "3c49430b43dfba77"
-        const val REDIRECT_URL = "https://accounts.firefox.com/oauth/success/$CLIENT_ID"
+        const val REDIRECT_URL = "https://devicesrefresh.dev.lcip.org/oauth/success/3c49430b43dfba77"
         const val SUCCESS_PATH = "connect_another_device?showSuccessMessage=true"
     }
 
@@ -29,7 +29,7 @@ class BackgroundServices(
     // grows too far we probably want to find a way to determine the set
     // at runtime.
     private val scopes: Array<String> = arrayOf("profile", "https://identity.mozilla.com/apps/oldsync")
-    private val config = Config.release(CLIENT_ID, REDIRECT_URL)
+    private val config = Config("https://devicesrefresh.dev.lcip.org", CLIENT_ID, REDIRECT_URL)
 
     val accountManager = FxaAccountManager(context, config, scopes).also { it.init() }
 
