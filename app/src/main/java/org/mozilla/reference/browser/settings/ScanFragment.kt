@@ -6,7 +6,10 @@ package org.mozilla.reference.browser.settings
 
 import android.content.pm.PackageManager
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Layout
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +20,43 @@ import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 import org.mozilla.reference.browser.ext.requireComponents
 
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsoluteLayout
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+
+
 class ScanFragment : Fragment(), ZXingScannerView.ResultHandler {
-    private var scannerView: ZXingScannerView? = null
+    lateinit var scannerView: ZXingScannerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val cameraPermission = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
         if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA), 1)
         }
-        scannerView = ZXingScannerView(requireActivity());
-        return scannerView;
+
+        val linearLa = FrameLayout(requireActivity())
+        scannerView = ZXingScannerView(requireActivity())
+        scannerView.layoutParams = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+
+        linearLa.addView(scannerView)
+
+        //val layoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+
+        val valueTV = TextView(requireActivity())
+        valueTV.text = "Open https://pairsona-qa.dev.lcip.org/pair in Firefox Desktop for your pairing code"
+        valueTV.layoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        valueTV.setGravity(Gravity.CENTER)
+        valueTV.setTextColor(Color.WHITE)
+        valueTV.setTextSize(20f)
+        linearLa.addView(valueTV)
+
+
+
+        return linearLa;
     }
 
     override fun onResume() {
